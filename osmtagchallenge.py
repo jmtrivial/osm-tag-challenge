@@ -2,13 +2,15 @@ import tweepy
 import flickrapi
 import json
 import random
+import os
+
 
 import config
 
 JLZ_flickr_simple_id = "jeanlouis_zimmermann"
 JLZ_flickr_id = "40911451@N00"
 album_id = '72177720298086796'
-published_file = 'published.json'
+published_file = os.path.join(os.path.dirname(__file__), 'published.json')
 
 
 def tweet_image(url):
