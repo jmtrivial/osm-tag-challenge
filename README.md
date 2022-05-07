@@ -3,9 +3,10 @@
 Code source du bot [OSMTagChallenge](https://twitter.com/ChallengeOsm) qui poste chaque jour une image représentant un espace dont les éléments sont un défi à la représentation dans OpenStreetMap.
 
 
-## Dépendances
+## Utilisation
 
-* ```pip install tweepy flickrapi```
+* Installer les dépendances avec ```pip install tweepy flickrapi```
+* renommer le fichier ```config.sample.py``` en ```config.py``` et remplacer les variables après avoir créé les tokens chez Twitter et Flickr
 
 ## Crédits
 
