@@ -25,7 +25,7 @@ def tweet_image(url):
         # Create a tweet
         print("Publication du tweet")
         return api.update_status("#OpenStreetMap tag challenge\n" + url)
-    except tweepy.TwitterError:
+    except TwitterError:
         return None
 
 
@@ -83,3 +83,5 @@ if result is not None:
 
     with open(published_file, 'w') as f:
         json.dump(already_published, f)
+else:
+    print("Erreur pendant la publication du tweet")
