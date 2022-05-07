@@ -3,13 +3,13 @@ import flickrapi
 import json
 import random
 
-
 import config
 
 JLZ_flickr_simple_id = "jeanlouis_zimmermann"
 JLZ_flickr_id = "40911451@N00"
 album_id = '72177720298086796'
 published_file = 'published.json'
+
 
 def tweet_image(url):
     # Authenticate to Twitter
@@ -23,7 +23,7 @@ def tweet_image(url):
         # Create a tweet
         print("Publication du tweet")
         return api.update_status("#OpenStreetMap tag challenge\n" + url)
-    except TwitterError:
+    except tweepy.TwitterError:
         return None
 
 
@@ -33,29 +33,32 @@ def get_photos(photoset_id):
 
     print("Récupération de la première page de l'album")
     photos = flickr.photosets.getPhotos(user_id=JLZ_flickr_id, photoset_id=photoset_id)
-    
+
     result = [p["id"] for p in photos["photoset"]["photo"]]
-    
+
     if photos["photoset"]["pages"] != 1:
         for page in range(2, photos["photoset"]["pages"]):
             print("Récupération de la page " + str(page) + " de l'album")
             photos = flickr.photosets.getPhotos(user_id=JLZ_flickr_id, photoset_id=photoset_id, page=page)
             result += [p["id"] for p in photos["photoset"]["photo"]]
-    
+
     return result
+
 
 def build_image_url(image_id, album_id):
     return "https://www.flickr.com/photos/" + JLZ_flickr_simple_id + "/" + image_id + "/in/album-" + album_id + "/"
+
 
 def get_already_published_list():
     result = []
     try:
         with open(published_file, 'r') as f:
             result = json.load(f)
-            
+
     except FileNotFoundError:
         pass
     return result
+
 
 # get photos
 photos = get_photos(album_id)
@@ -73,10 +76,8 @@ selected = random.choice(photos)
 result = tweet_image(build_image_url(selected, album_id))
 
 # save the tweeted image
-if result != None:
+if result is not None:
     already_published.append(selected)
-    
+
     with open(published_file, 'w') as f:
         json.dump(already_published, f)
-
-
