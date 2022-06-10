@@ -1,4 +1,5 @@
 import tweepy
+from mastodon import Mastodon
 import flickrapi
 import json
 import random
@@ -28,6 +29,19 @@ def tweet_image(url):
     except TwitterError:
         return None
 
+def toot_image(url):
+    try:
+        mastodon = Mastodon(
+            client_id = 'osmtagchallenge.secret',
+            api_base_url = 'https://mastodon.social'
+        )
+        mastodon.log_in(
+            config.mastodon_login,
+            config.mastodon_password
+        )
+        return(mastodon.toot("#OpenStreetMap tag challenge\n" + url))
+    except:
+        return None
 
 def get_photos(photoset_id):
 
@@ -75,10 +89,13 @@ photos = [p for p in photos if p not in already_published]
 selected = random.choice(photos)
 
 # tweet this image
-result = tweet_image(build_image_url(selected, album_id))
+result_twitter = tweet_image(build_image_url(selected, album_id))
+
+# toot this image
+result_mastodon = toot_image(build_image_url(selected, album_id))
 
 # save the tweeted image
-if result is not None:
+if result_twitter is not None or result_mastodon is not None:
     already_published.append(selected)
 
     with open(published_file, 'w') as f:
