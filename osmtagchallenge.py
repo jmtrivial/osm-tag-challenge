@@ -32,7 +32,7 @@ def tweet_image(url):
 def toot_image(url):
     try:
         mastodon = Mastodon(
-            client_id = 'osmtagchallenge.secret',
+            client_id = os.path.join(os.path.dirname(__file__), 'osmtagchallenge.secret'),
             api_base_url = 'https://mastodon.social'
         )
         mastodon.log_in(
