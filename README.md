@@ -1,6 +1,6 @@
 # OSM Tag Challenge
 
-Code source sous licence GPLv3 du bot [OSMTagChallenge](https://twitter.com/ChallengeOsm) qui poste chaque jour une image représentant un espace dont les éléments sont un défi à la représentation dans OpenStreetMap.
+Code source sous licence GPLv3 du bot [OSMTagChallenge (twitter)](https://twitter.com/ChallengeOsm) /[OSMTagChallenge (Mastodon)](https://mastodon.social/@ChallengeOsm) qui poste chaque jour une image représentant un espace dont les éléments sont un défi à la représentation dans OpenStreetMap. Le bot sait également proposer des tags si au bout de quelques heures il n'y a pas de contribution.
 
 
 ## Utilisation
