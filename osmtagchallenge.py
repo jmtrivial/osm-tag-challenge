@@ -25,8 +25,11 @@ def tweet_image(url):
 
         # Create a tweet
         print("Publication du tweet")
-        return api.update_status("#OpenStreetMap tag challenge\n" + url)
-    except TwitterError:
+        status = api.update_status("#OpenStreetMap tag challenge\n" + url)
+        return status.id
+
+    except TwitterException:
+        print("Erreur pendant la publication du tweet")
         return None
 
 def toot_image(url):
@@ -39,8 +42,12 @@ def toot_image(url):
             config.mastodon_login,
             config.mastodon_password
         )
-        return(mastodon.toot("#OpenStreetMap tag challenge\n" + url))
+        print("Publication du toot")
+        status = mastodon.toot("#OpenStreetMap tag challenge\n" + url)
+        return status["id"]
+
     except:
+        print("Erreur pendant la publication du toot")
         return None
 
 def get_photos(photoset_id):
@@ -82,8 +89,10 @@ photos = get_photos(album_id)
 # get already published photos
 already_published = get_already_published_list()
 
+already_published_flat = [x["id"] if isinstance(x, map) else x for x in already_published]
+
 # only keep new ones
-photos = [p for p in photos if p not in already_published]
+photos = [p for p in photos if p not in already_published_flat]
 
 # randomly select one image
 selected = random.choice(photos)
@@ -96,9 +105,9 @@ result_mastodon = toot_image(build_image_url(selected, album_id))
 
 # save the tweeted image
 if result_twitter is not None or result_mastodon is not None:
-    already_published.append(selected)
+    already_published.append({"id": selected, "twitter": result_twitter, "mastodon": result_mastodon})
 
     with open(published_file, 'w') as f:
         json.dump(already_published, f)
 else:
-    print("Erreur pendant la publication du tweet")
+    print("Erreur: ni Twitter ni Mastodon n'ont été alimentés.")
