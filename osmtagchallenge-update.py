@@ -59,7 +59,32 @@ def has_answers_tweet(id):
         return None
 
 
-def tweet_tags(tags, id):
+def prepare_message(tags):
+    if len(tags) == 0:
+        texts = ["Alors, toujours pas de proposition de tag ?",
+                    "Qui se lance ?",
+                    "Une idée de tag ?",
+                    "La photo est trop dure ?",
+                    "Allo, y'a quelqu'un ?",
+                    "Allo Houston !",
+                    "À la rescousse !",
+                    "je me sens seul.",
+                    "si je vois gêne dites-le ;-)",
+                    "Soyez pas timides !",
+                    "Ben alors ?",
+                    "un volontaire ?",
+                    "Plouf, plouf…",
+                    "🎵The show must go on 🎶"]
+        text = random.choice(texts)
+    else:
+        texts1 = ["Allez, on vous aide un peu : ", "On pourrait proposer par exemple" , "Quelques suggestions : "]
+        texts2 = ["", ". Qu'en pensez-vous ?", "C'est un début, bien sûr. Vous complétez ?"]
+        text =  random.choice(texts1) + ", ".join(tags) + random.choice(texts2)
+    return text
+
+
+
+def tweet_tags(text, id):
     # Authenticate to Twitter
     auth = tweepy.OAuthHandler(config.twitter_api_key, config.twitter_api_key_secret)
     auth.set_access_token(config.twitter_access_token, config.twitter_access_token_secret)
@@ -70,26 +95,6 @@ def tweet_tags(tags, id):
 
         # Create a tweet
         print("Publication du tweet")
-        if len(tags) == 0:
-            texts = ["Alors, toujours pas de proposition de tag ?",
-                     "Qui se lance ?",
-                     "Une idée de tag ?",
-                     "La photo est trop dure ?",
-                     "Allo, y'a quelqu'un ?",
-                     "Allo Houston !",
-                     "À la rescousse !",
-                     "je me sens seul.",
-                     "si je vois gêne dites-le ;-)",
-                     "Soyez pas timides !",
-                     "Ben alors ?",
-                     "un volontaire ?",
-                     "Plouf, plouf…",
-                     "🎵The show must go on 🎶"]
-            text = random.choice(texts)
-        else:
-            texts1 = ["Allez, on vous aide un peu : ", "On pourrait proposer par exemple" , "Quelques suggestions : "]
-            texts2 = ["", ". Qu'en pensez-vous ?", "C'est un début, bien sûr. Vous complétez ?"]
-            text =  random.choice(texts1) + ", ".join(tags) + random.choice(texts2)
         status = api.update_status(text, in_reply_to_status_id=id)
         return status
 
@@ -103,13 +108,15 @@ last_publication = get_last_published_image()
 # get tags
 tags = get_flickr_osm_tags(last_publication["id"])
 
+# prepare message
+message = prepare_message(tags)
 
 # has answers (twitter)
 answers_twitter = has_answers_tweet(last_publication["twitter"])
 
 if answers_twitter is not None and not answers_twitter:
     print("Publication d'une réponse")
-    result_twitter = tweet_tags(tags, last_publication["twitter"])
+    result_twitter = tweet_tags(message, last_publication["twitter"])
 
     if result_twitter is None:
         print("Erreur: Twitter n'a pas été alimenté.")
