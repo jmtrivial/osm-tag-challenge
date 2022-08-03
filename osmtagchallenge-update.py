@@ -62,19 +62,20 @@ def has_answers_tweet(id):
 def prepare_message(tags):
     if len(tags) == 0:
         texts = ["Alors, toujours pas de proposition de tag ?",
-                    "Qui se lance ?",
-                    "Une idée de tag ?",
-                    "La photo est trop dure ?",
-                    "Allo, y'a quelqu'un ?",
-                    "Allo Houston !",
-                    "À la rescousse !",
-                    "je me sens seul.",
-                    "si je vois gêne dites-le ;-)",
-                    "Soyez pas timides !",
-                    "Ben alors ?",
-                    "un volontaire ?",
-                    "Plouf, plouf…",
-                    "🎵The show must go on 🎶"]
+                 "Qui se lance ?",
+                 "Une idée de tag ?",
+                 "La photo est trop dure ?",
+                 "Allo, y'a quelqu'un ?",
+                 "Allo Houston !",
+                 "À la rescousse !",
+                 "je me sens seul.",
+                 "je me sens bien seul...",
+                 "si je vois gêne dites-le ;-)",
+                 "Soyez pas timides !",
+                 "Ben alors ?",
+                 "un volontaire ?",
+                 "Plouf, plouf…",
+                 "🎵The show must go on 🎶"]
         text = random.choice(texts)
     else:
         texts1 = ["Allez, on vous aide un peu : ", "On pourrait proposer par exemple" , "Quelques suggestions : "]
