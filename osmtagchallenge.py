@@ -89,7 +89,7 @@ photos = get_photos(album_id)
 # get already published photos
 already_published = get_already_published_list()
 
-already_published_flat = [x["id"] if isinstance(x, map) else x for x in already_published]
+already_published_flat = [x["id"] if isinstance(x, dict) else x for x in already_published]
 
 # only keep new ones
 photos = [p for p in photos if p not in already_published_flat]
