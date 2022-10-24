@@ -79,7 +79,7 @@ def prepare_message(tags):
         text = random.choice(texts)
     else:
         texts1 = ["Allez, on vous aide un peu : ", "On pourrait proposer par exemple" , "Première suggestion : "]
-        texts2 = ["", ". Qu'en pensez-vous ?", "C'est un début, bien sûr. Vous complétez ?"]
+        texts2 = ["", "Qu'en pensez-vous ?", "C'est un début, bien sûr. Vous complétez ?"]
         text =  random.choice(texts1) + "\n\n" + ", ".join(tags) + "\n\n" + random.choice(texts2)
     return text
 
